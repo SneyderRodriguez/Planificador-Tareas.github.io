@@ -34,7 +34,7 @@ aside {
 }
 .paneles {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 2fr 3fr;
     gap:30px;
 }
 .task-form,
@@ -49,11 +49,6 @@ aside {
     flex-direction: column;
     gap: 1rem;
 }
-.checkbox {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 0.5rem;
-}
 .task-text {
     height: 140px;
 }
@@ -64,12 +59,12 @@ aside {
 }
 .list-group-item {
     display: grid;
-    grid-template-columns: 35px 1fr 70px 90px;
+    grid-template-columns: 35px 1fr 120px 90px;
     align-items: center;
     gap: 10px;
 }
 .to-do-list .form-select {
-    width: 70px;
+    width: 100%;
 }
 .checkbox .form-select {
     width: 100%;
@@ -83,18 +78,12 @@ aside {
 .btn-secondary:hover {
     background-color: #999 !important;
 }
-.task-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
 .checkbox {
     display: grid;
     grid-template-columns:
         1fr 1fr;
     gap: 15px;
 }
-
 @media (max-width: 1200px) {
     .paneles {
         grid-template-columns: 1fr;
