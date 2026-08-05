@@ -58,9 +58,6 @@
         </nav>
     </header>
     <main>
-        <aside>
-            <!-- EN CONSTRUCCIÓN -->
-        </aside>
         <div class="contenedor">
             <div class="title">
                 <h1>Planificador de Tareas</h1>
@@ -70,8 +67,7 @@
                 <div class="task-form">
                     <!-- NOMBRE DE LA TAREA -->
                     <div class="mb-3">
-                        <input type="text" class="form-control" id="task-name"
-                            placeholder="Titulo de la Tarea">
+                        <input type="text" class="form-control" id="task-name" placeholder="Título de la Tarea">
                     </div>
                     <div class="checkbox">
                         <!-- CATEGORIA -->
@@ -81,8 +77,8 @@
                             <option value="trabajo">Trabajo</option>
                             <option value="hogar">Hogar</option>
                         </select>
-                        <!-- ESTADO -->
-                        <select class="form-select" size="3" aria-label="Size 3 select example">
+                        <!-- PRIORIDAD -->
+                        <select class="form-select prioridad" aria-label="Size 3 select example">
                             <option selected disabled>Prioridad</option>
                             <option value="1">Baja</option>
                             <option value="2">Media</option>
@@ -111,14 +107,15 @@
                                 <input class="form-check-input" type="checkbox" value="" id="tarea" switch>
                             </div><span>Crear popUP de detalles</span>
                             <!-- MÁS DETALLES -->
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Opciones</option>
+                            <select class="form-select estado" aria-label="Default select example">
+                                <option selected>Estado</option>
                                 <option value="1">Por Hacer</option>
                                 <option value="2">En Progreso</option>
                                 <option value="3">Finalizado</option>
                             </select>
                             <!-- BOTÓN DETALLES -->
-                            <button type="button" class="btn btn-secondary btn-sm">Detalles</button>
+                            <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#detalleModal">Detalles</button>
                         </li>
                         <li class="list-group-item">
                             <!-- CHECKLIST -->
@@ -126,14 +123,15 @@
                                 <input class="form-check-input" type="checkbox" value="" id="tarea" switch>
                             </div><span>Preparar Presentación</span>
                             <!-- MÁS DETALLES -->
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Opcioness</option>
+                            <select class="form-select estado" aria-label="Default select example">
+                                <option selected>Estado</option>
                                 <option value="1">Por hacer</option>
                                 <option value="2">En Progreso</option>
                                 <option value="3">Finalizado</option>
                             </select>
                             <!-- BOTÓN Detalles -->
-                            <button type="button" class="btn btn-secondary btn-sm">Detalles</button>
+                            <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#detalleModal">Detalles</button>
                         </li>
                         <li class="list-group-item">
                             <!-- CHECKLIST -->
@@ -141,14 +139,15 @@
                                 <input class="form-check-input" type="checkbox" value="" id="tarea" switch>
                             </div><span>Lavar Ropa</span>
                             <!-- MÁS DETALLES -->
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Opciones</option>
+                            <select class="form-select estado" aria-label="Default select example">
+                                <option selected>Estado</option>
                                 <option value="1">Por hacer</option>
                                 <option value="2">En Progreso</option>
                                 <option value="3">Finalizado</option>
                             </select>
                             <!-- BOTÓN Detalles -->
-                            <button type="button" class="btn btn-secondary btn-sm">Detalles</button>
+                            <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#detalleModal">Detalles</button>
                         </li>
                         <li class="list-group-item">
                             <!-- CHECKLIST -->
@@ -156,14 +155,15 @@
                                 <input class="form-check-input" type="checkbox" value="" id="tarea" switch>
                             </div><span>Subir cambios a Github</span>
                             <!-- MÁS DETALLES -->
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Opcioness</option>
+                            <select class="form-select estado" aria-label="Default select example">
+                                <option selected>Estado</option>
                                 <option value="1">Por hacer</option>
                                 <option value="2">En Progreso</option>
                                 <option value="3">Finalizado</option>
                             </select>
                             <!-- BOTÓN Detalles -->
-                            <button type="button" class="btn btn-secondary btn-sm">Detalles</button>
+                            <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#detalleModal">Detalles</button>
                         </li>
                         <li class="list-group-item">
                             <!-- CHECKLIST -->
@@ -171,20 +171,73 @@
                                 <input class="form-check-input" type="checkbox" value="" id="tarea" switch>
                             </div><span>Limpiar la habitación</span>
                             <!-- MÁS DETALLES -->
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Opciones</option>
+                            <select class="form-select estado" aria-label="Default select example">
+                                <option selected>Estado</option>
                                 <option value="1">Por hacer</option>
                                 <option value="2">En Progreso</option>
                                 <option value="3">Finalizado</option>
                             </select>
                             <!-- BOTÓN Detalles -->
-                            <button type="button" class="btn btn-secondary btn-sm">Detalles</button>
+                            <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#detalleModal"></button>>Detalles</button>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
     </main>
+    <div class="modal fade" id="detalleModal" tabindex="-1" aria-labelledby="detalleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detalleModalLabel">
+                        Detalles de la tarea
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <strong>Nombre</strong>
+                        <p id="detalleNombre">
+                            Crear popUP de detalles
+                        </p>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Descripción</strong>
+                        <p id="detalleDescripcion">
+                            Crear una ventana emergente para visualizar toda la información de una tarea.
+                        </p>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <strong>Categoría</strong>
+                            <p id="detalleCategoria">Trabajo</p>
+                        </div>
+                        <div class="col-6">
+                            <strong>Prioridad</strong>
+                            <p id="detallePrioridad">Alta</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <strong>Fecha inicio</strong>
+                            <p id="detalleInicio">05/08/2026</p>
+                        </div>
+                        <div class="col-6">
+                            <strong>Fecha fin</strong>
+                            <p id="detalleFin">10/08/2026</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
