@@ -15,7 +15,6 @@
     --finalizado: #0E5807;
 }
 body {
-    /* background-color: var(--sleepy-blue); */
     margin: 0;
     font-family: system-ui, -apple-system, sans-serif;
 }
@@ -30,7 +29,6 @@ aside {
 }
 .contenedor {
     flex: 1;
-    /* background-color: var(--coarse-wool); */
     padding: 2rem;
     display: flex;
     flex-direction: column;
