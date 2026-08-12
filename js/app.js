@@ -25,8 +25,8 @@ form.addEventListener("submit", function (event) {
     };
 
     console.log("Datos:", data);
-    const errorMessage= validFormFieldInput(data);
-        if (errorMessage !== null) {
+    const errorMessage = validFormFieldInput(data);
+    if (errorMessage !== null) {
         Swal.fire({
             title: "Datos inválidos",
             text: errorMessage,
@@ -34,7 +34,11 @@ form.addEventListener("submit", function (event) {
         });
         return;
     }
-    console.log("Formulario válido");
+    Swal.fire({
+        title: "¡Formulario enviado!",
+        text: "La tarea se ha creado correctamente.",
+        icon: "success"
+    });
 })
 
 function validFormFieldInput(data) {
