@@ -19,6 +19,11 @@ main {
     display: flex;
     min-height: calc(100vh - 56px);
 }
+aside {
+    width: 220px;
+    background: #ececec;
+    border-right: 1px solid #ccc;
+}
 .contenedor {
     flex: 1;
     /* background-color: var(--coarse-wool); */
