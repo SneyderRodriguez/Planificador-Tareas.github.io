@@ -7,8 +7,12 @@
 
     /* PRIORIDADES */
     --alta: #440101;
+    --media: #F28C18;
+    --baja: #053304;
     /*ESTADOS*/
     --porhacer: #6C0102;
+    --enprogreso: #F6B23D;
+    --finalizado: #0E5807;
 }
 body {
     /* background-color: var(--sleepy-blue); */
