@@ -90,11 +90,7 @@ proyecto/
 
 ## 📸 Capturas de pantalla
 
-Puedes agregar imágenes.
-
-```markdown
-![Pantalla principal](imagenes/inicio.png)
-```
+[![Planificador-Tareas.png](https://i.postimg.cc/3xT613SB/Planificador-Tareas.png)](https://postimg.cc/VdKDLPcr)
 
 ---
 
