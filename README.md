@@ -61,10 +61,6 @@ node index.html
 
 ## 🚀 Uso
 
-Describe cómo utilizar el programa.
-
-Ejemplo:
-
 ```
 1. Ingresa Nombre de la Tarea.
 2. Seleccion la Categoria y la Prioridad de la tarea.
@@ -90,7 +86,7 @@ proyecto/
 
 ## 📸 Capturas de pantalla
 
-[![Planificador-Tareas.png](https://i.postimg.cc/3xT613SB/Planificador-Tareas.png)](https://postimg.cc/VdKDLPcr)
+![Planificador-Tareas.png](https://i.ibb.co/gM83tgYz/Planificador-Tareas.png)
 
 ---
 
