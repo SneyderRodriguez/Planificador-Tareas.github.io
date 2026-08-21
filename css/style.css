@@ -124,6 +124,11 @@ aside .task-list:hover {
     box-shadow: 0 4px 12px rgba(26, 33, 41, 0.05);
 }
 
+.completed {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
 .task-form {
     display: flex;
     flex-direction: column;

@@ -62,3 +62,20 @@ function validFormFieldInput(data) {
     }
     return null;
 }
+
+const taskManager = new TaskManager(); 
+console.log(taskManager.tasks);
+
+const taskSwitches = document.querySelectorAll(".to-do-list .form-check-input");
+taskSwitches.forEach(switchInput => {
+    switchInput.addEventListener("change", function(e) {
+        const taskItem = e.target.closest(".list-group-item");
+        const taskSpan = taskItem.querySelector("span");
+
+        if (e.target.checked) {
+            taskSpan.classList.add("completed");
+        } else {
+            taskSpan.classList.remove("completed");
+        }
+    });
+});
