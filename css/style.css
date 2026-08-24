@@ -5,13 +5,13 @@
     --night-rendezvous: #65777A;
     --mount-etna: #3C494D;
     /* PRIORIDADES */
-    --alta: #440101;
-    --media: #F28C18;
-    --baja: #053304;
+    --alta: #9D1024;
+    --media: #D97706;
+    --baja: #92B1D9;
     /*ESTADOS*/
-    --porhacer: #6C0102;
-    --enprogreso: #F6B23D;
-    --finalizado: #0E5807;
+    --por-hacer: #C5221F;
+    --en-progreso: #F59E0B;
+    --finalizado: #5B83B6;
     /* TEXTO */
     --font-title: "Jaro", sans-serif;
     --font-text: "Patrick Hand", cursive;
@@ -201,6 +201,7 @@ aside .task-create:hover,
 }
 
 .modal-content {
+    background-color: var(--cape-cod-blue);
     border-radius: 12px;
     border: none;
     box-shadow: 0 10px 25px rgba(0,0,0,0.15);
