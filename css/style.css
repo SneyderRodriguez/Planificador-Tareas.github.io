@@ -20,8 +20,8 @@
 body {
     margin: 0;
     font-family: system-ui, -apple-system, sans-serif;
-    background-color: #f4f6f7;
-    color: var(--coarse-wool);
+    background-color: var(--coarse-wool);
+    color: var(--sleepy-blue);
 }
 
 main {
@@ -29,10 +29,9 @@ main {
     min-height: 100vh;
 }
 
-/* SIDEBAR / ASIDE */
 aside {
     width: 240px;
-    background-color: var(--coarse-wool);
+    background-color: var(--night-rendezvous);
     padding: 2rem 1rem;
     display: flex;
     flex-direction: column;
@@ -55,7 +54,6 @@ aside .perfil img {
     background-color: var(--mount-etna);
 }
 
-/* Botones del Sidebar */
 aside button {
     width: 100%;
     padding: 0.75rem 1rem;
@@ -67,27 +65,18 @@ aside button {
     text-align: left;
 }
 
-aside .task-create {
+aside .task-create,
+.task-list {
     background-color: var(--sleepy-blue);
     color: var(--coarse-wool);
 }
 
-aside .task-create:hover {
-    background-color: #d8e5e8;
-}
-
-aside .task-list {
-    background-color: transparent;
-    color: var(--sleepy-blue);
-    border: 1px solid var(--mount-etna);
-}
-
-aside .task-list:hover {
+aside .task-create:hover,
+.task-list:hover {
     background-color: var(--mount-etna);
-    color: #ffffff;
+    color: var(--sleepy-blue);
 }
 
-/* CONTENEDOR PRINCIPAL */
 .contenedor {
     flex: 1;
     padding: 2.5rem;
@@ -101,9 +90,9 @@ aside .task-list:hover {
 .title h1 {
     font-size: 2rem;
     font-weight: 700;
-    color: var(--coarse-wool);
+    color: var(--cape-cod-blue);
     margin: 0;
-    border-bottom: 3px solid var(--sleepy-blue);
+    border-bottom: 3px solid var(--night-rendezvous);
     display: inline-block;
     padding-bottom: 5px;
 }
@@ -114,13 +103,12 @@ aside .task-list:hover {
     gap: 30px;
 }
 
-/* CARDS / PANELES */
 .task-form,
 .to-do-list {
-    background-color: #ffffff;
+    background-color: var(--night-rendezvous);
     padding: 1.8rem;
     border-radius: 12px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--mount-etna);
     box-shadow: 0 4px 12px rgba(26, 33, 41, 0.05);
 }
 
@@ -152,7 +140,6 @@ aside .task-list:hover {
     gap: 15px;
 }
 
-/* Personalización de Inputs de Bootstrap */
 .form-control,
 .form-select {
     border-color: var(--cape-cod-blue);
@@ -166,7 +153,6 @@ aside .task-list:hover {
     box-shadow: 0 0 0 0.25rem rgba(101, 119, 122, 0.25);
 }
 
-/* BOTONES DEL FORMULARIO Y MODAL */
 .btn-primary {
     background-color: var(--coarse-wool) !important;
     border-color: var(--coarse-wool) !important;
@@ -192,7 +178,6 @@ aside .task-list:hover {
     color: #ffffff !important;
 }
 
-/* LISTA DE TAREAS */
 .list-group-item {
     display: grid;
     grid-template-columns: 35px 1fr 130px 90px;
@@ -210,13 +195,11 @@ aside .task-list:hover {
     color: var(--coarse-wool);
 }
 
-/* SWITCHES DE BOOTSTRAP */
 .form-check-input:checked {
     background-color: var(--finalizado);
     border-color: var(--finalizado);
 }
 
-/* MODAL DE DETALLES */
 .modal-content {
     border-radius: 12px;
     border: none;
@@ -234,7 +217,6 @@ aside .task-list:hover {
     filter: invert(1);
 }
 
-/* RESPONSIVE */
 @media (max-width: 1200px) {
     .paneles {
         grid-template-columns: 1fr;
