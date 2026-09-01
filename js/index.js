@@ -1,10 +1,12 @@
 const taskManager = new TaskManager();
+
 console.log("Instancia de TaskManager:", taskManager);
 console.log("Tareas guardadas:", taskManager.tasks);
 console.log("¿Es una instancia válida?", taskManager instanceof TaskManager);
 
 const form = document.querySelector("#task-form");
 const taskList = document.querySelector("#task-list");
+
 const taskName = document.querySelector("#task-name");
 const taskCategory = document.querySelector("#task-category");
 const taskPriority = document.querySelector("#task-priority");
@@ -65,7 +67,6 @@ function normalizeTaskStatus(task) {
     if (task.completed) {
         return "FINALIZADO";
     }
-
     if (
         task.status === "POR HACER" ||
         task.status === "EN PROGRESO" ||
@@ -73,24 +74,27 @@ function normalizeTaskStatus(task) {
     ) {
         return task.status;
     }
-
     return "POR HACER";
 }
 
 function createTaskElement(task) {
     const taskElement = document.createElement("li");
+
     const status = normalizeTaskStatus(task);
     const completedClass = task.completed ? "completed" : "";
     const checkedAttribute = task.completed ? "checked" : "";
 
     taskElement.className = "list-group-item";
     taskElement.dataset.taskId = task.id;
+
     taskElement.innerHTML = `
-        <input
-            type="checkbox"
-            class="form-check-input task-toggle"
-            ${checkedAttribute}
-            aria-label="Marcar tarea como completada">
+        <div class="form-check form-switch">
+            <input
+                type="checkbox"
+                class="form-check-input task-toggle"
+                ${checkedAttribute}
+                aria-label="Marcar tarea como completada">
+        </div>
         <span class="${completedClass}">
             ${escapeHtml(task.name)}
         </span>
@@ -116,6 +120,7 @@ function createTaskElement(task) {
             class="btn btn-secondary task-details">
             Detalles
         </button>`;
+
     return taskElement;
 }
 
@@ -123,12 +128,15 @@ function renderTasks() {
     if (!taskList) {
         return;
     }
+
     taskList.innerHTML = "";
+
     if (taskManager.tasks.length === 0) {
         taskList.innerHTML = `
             <li class="list-group-item empty-task-message">
                 No hay tareas creadas.
             </li>`;
+
         return;
     }
 
@@ -147,12 +155,14 @@ function showMessage(title, text, icon) {
         });
         return;
     }
+
     alert(`${title}\n${text}`);
 }
 
 if (form) {
     form.addEventListener("submit", event => {
         event.preventDefault();
+
         const taskData = {
             name: taskName.value.trim(),
             category: taskCategory.value,
@@ -161,15 +171,19 @@ if (form) {
             startDate: taskStartDate.value,
             dueDate: taskEndDate.value
         };
+
         const errorMessage = validateTaskData(taskData);
 
         if (errorMessage) {
             showMessage(
                 "Datos inválidos",
                 errorMessage,
-                "error");
+                "error"
+            );
+
             return;
         }
+
         taskManager.addTask(
             taskData.name,
             taskData.category,
@@ -178,8 +192,10 @@ if (form) {
             taskData.startDate,
             taskData.dueDate
         );
+
         renderTasks();
         form.reset();
+
         showMessage(
             "Tarea creada",
             "La tarea se ha creado correctamente.",
@@ -206,6 +222,7 @@ if (taskList) {
 
         if (event.target.classList.contains("task-toggle")) {
             const completed = event.target.checked;
+
             taskManager.updateTaskStatus(taskId, completed);
             renderTasks();
 
@@ -220,6 +237,7 @@ if (taskList) {
                 status: newStatus,
                 completed
             });
+
             renderTasks();
         }
     });
@@ -232,6 +250,7 @@ if (taskList) {
         }
 
         const taskElement = detailsButton.closest("[data-task-id]");
+
         if (!taskElement) {
             return;
         }
@@ -247,6 +266,7 @@ if (taskList) {
         showTaskDetails(task);
     });
 }
+
 function showTaskDetails(task) {
     const detailsModalElement = document.querySelector("#task-details-modal");
 
@@ -320,7 +340,6 @@ Estado: ${task.status}
         const modal = bootstrap.Modal.getOrCreateInstance(
             detailsModalElement
         );
-
         modal.show();
     }
 }
