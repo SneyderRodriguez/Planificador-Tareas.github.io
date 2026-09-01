@@ -1,81 +1,327 @@
+const taskManager = new TaskManager();
+console.log("Instancia de TaskManager:", taskManager);
+console.log("Tareas guardadas:", taskManager.tasks);
+console.log("¿Es una instancia válida?", taskManager instanceof TaskManager);
+
+const form = document.querySelector("#task-form");
+const taskList = document.querySelector("#task-list");
 const taskName = document.querySelector("#task-name");
 const taskCategory = document.querySelector("#task-category");
 const taskPriority = document.querySelector("#task-priority");
 const taskDescription = document.querySelector("#task-description");
 const taskStartDate = document.querySelector("#task-start-date");
 const taskEndDate = document.querySelector("#task-end-date");
-const form = document.querySelector("#task-form");
 
-form.addEventListener("submit", function (event) {
-    event.preventDefault();
-    const name = taskName.value;
-    const category = taskCategory.value;
-    const priority = taskPriority.value;
-    const description = taskDescription.value;
-    const startDate = taskStartDate.value;
-    const endDate = taskEndDate.value;
+if (!form) {
+    console.error("No se encontró el formulario #task-form.");
+}
 
-    const data = {
-        name,
-        category,
-        priority,
-        description,
-        startDate,
-        endDate
-    };
+if (!taskList) {
+    console.error("No se encontró el contenedor #task-list.");
+}
 
-    console.log("Datos:", data);
-    const errorMessage = validFormFieldInput(data);
-    if (errorMessage !== null) {
-        Swal.fire({
-            title: "Datos inválidos",
-            text: errorMessage,
-            icon: "error"
-        });
-        return;
-    }
-    Swal.fire({
-        title: "¡Formulario enviado!",
-        text: "La tarea se ha creado correctamente.",
-        icon: "success"
-    });
-})
+function escapeHtml(value) {
+    const element = document.createElement("div");
+    element.textContent = value;
+    return element.innerHTML;
+}
 
-function validFormFieldInput(data) {
-    if (data.name.trim() === "") {
-        return "Añade un Titulo a la Tarea";
+function validateTaskData(data) {
+    if (!data.name.trim()) {
+        return "Añade un título a la tarea.";
     }
-    if (data.category.trim() === "") {
-        return "Selecciona una Categoria";
+
+    if (!data.category.trim()) {
+        return "Selecciona una categoría.";
     }
-    if (data.priority.trim() === "") {
-        return "Selecciona la Prioridad de la Tarea";
+
+    if (!data.priority.trim()) {
+        return "Selecciona la prioridad de la tarea.";
     }
-    if (data.description.trim() === "") {
-        return "Añade la descripción de la tarea";
+
+    if (!data.description.trim()) {
+        return "Añade la descripción de la tarea.";
     }
-    if (data.startDate.trim() === "") {
-        return "Selecciona la Fecha de Inicio";
+
+    if (!data.startDate.trim()) {
+        return "Selecciona la fecha de inicio.";
     }
-    if (data.endDate.trim() === "") {
-        return "Selecciona la Fecha de Fina";
+
+    if (!data.dueDate.trim()) {
+        return "Selecciona la fecha de finalización.";
+    }
+
+    if (
+        data.startDate.trim() &&
+        data.dueDate.trim() &&
+        data.startDate > data.dueDate
+    ) {
+        return "La fecha de inicio no puede ser posterior a la fecha final.";
     }
     return null;
 }
 
-const taskManager = new TaskManager(); 
-console.log(taskManager.tasks);
+function normalizeTaskStatus(task) {
+    if (task.completed) {
+        return "FINALIZADO";
+    }
 
-const taskSwitches = document.querySelectorAll(".to-do-list .form-check-input");
-taskSwitches.forEach(switchInput => {
-    switchInput.addEventListener("change", function(e) {
-        const taskItem = e.target.closest(".list-group-item");
-        const taskSpan = taskItem.querySelector("span");
+    if (
+        task.status === "POR HACER" ||
+        task.status === "EN PROGRESO" ||
+        task.status === "FINALIZADO"
+    ) {
+        return task.status;
+    }
 
-        if (e.target.checked) {
-            taskSpan.classList.add("completed");
-        } else {
-            taskSpan.classList.remove("completed");
+    return "POR HACER";
+}
+
+function createTaskElement(task) {
+    const taskElement = document.createElement("li");
+    const status = normalizeTaskStatus(task);
+    const completedClass = task.completed ? "completed" : "";
+    const checkedAttribute = task.completed ? "checked" : "";
+
+    taskElement.className = "list-group-item";
+    taskElement.dataset.taskId = task.id;
+    taskElement.innerHTML = `
+        <input
+            type="checkbox"
+            class="form-check-input task-toggle"
+            ${checkedAttribute}
+            aria-label="Marcar tarea como completada">
+        <span class="${completedClass}">
+            ${escapeHtml(task.name)}
+        </span>
+
+        <select
+            class="form-select task-status"
+            aria-label="Cambiar estado de la tarea">
+            <option value="POR HACER" ${status === "POR HACER" ? "selected" : ""}>
+                Por hacer
+            </option>
+
+            <option value="EN PROGRESO" ${status === "EN PROGRESO" ? "selected" : ""}>
+                En progreso
+            </option>
+
+            <option value="FINALIZADO" ${status === "FINALIZADO" ? "selected" : ""}>
+                Finalizado
+            </option>
+        </select>
+
+        <button
+            type="button"
+            class="btn btn-secondary task-details">
+            Detalles
+        </button>`;
+    return taskElement;
+}
+
+function renderTasks() {
+    if (!taskList) {
+        return;
+    }
+    taskList.innerHTML = "";
+    if (taskManager.tasks.length === 0) {
+        taskList.innerHTML = `
+            <li class="list-group-item empty-task-message">
+                No hay tareas creadas.
+            </li>`;
+        return;
+    }
+
+    taskManager.tasks.forEach(task => {
+        const taskElement = createTaskElement(task);
+        taskList.appendChild(taskElement);
+    });
+}
+
+function showMessage(title, text, icon) {
+    if (typeof Swal !== "undefined") {
+        Swal.fire({
+            title,
+            text,
+            icon
+        });
+        return;
+    }
+    alert(`${title}\n${text}`);
+}
+
+if (form) {
+    form.addEventListener("submit", event => {
+        event.preventDefault();
+        const taskData = {
+            name: taskName.value.trim(),
+            category: taskCategory.value,
+            priority: taskPriority.value,
+            description: taskDescription.value.trim(),
+            startDate: taskStartDate.value,
+            dueDate: taskEndDate.value
+        };
+        const errorMessage = validateTaskData(taskData);
+
+        if (errorMessage) {
+            showMessage(
+                "Datos inválidos",
+                errorMessage,
+                "error");
+            return;
+        }
+        taskManager.addTask(
+            taskData.name,
+            taskData.category,
+            taskData.priority,
+            taskData.description,
+            taskData.startDate,
+            taskData.dueDate
+        );
+        renderTasks();
+        form.reset();
+        showMessage(
+            "Tarea creada",
+            "La tarea se ha creado correctamente.",
+            "success"
+        );
+    });
+}
+
+if (taskList) {
+    taskList.addEventListener("change", event => {
+        const taskElement = event.target.closest("[data-task-id]");
+
+        if (!taskElement) {
+            return;
+        }
+
+        const taskId = Number(taskElement.dataset.taskId);
+        const task = taskManager.getTaskById(taskId);
+
+        if (!task) {
+            console.warn("No se encontró la tarea seleccionada.");
+            return;
+        }
+
+        if (event.target.classList.contains("task-toggle")) {
+            const completed = event.target.checked;
+            taskManager.updateTaskStatus(taskId, completed);
+            renderTasks();
+
+            return;
+        }
+
+        if (event.target.classList.contains("task-status")) {
+            const newStatus = event.target.value;
+            const completed = newStatus === "FINALIZADO";
+
+            taskManager.updateTask(taskId, {
+                status: newStatus,
+                completed
+            });
+            renderTasks();
         }
     });
-});
+
+    taskList.addEventListener("click", event => {
+        const detailsButton = event.target.closest(".task-details");
+
+        if (!detailsButton) {
+            return;
+        }
+
+        const taskElement = detailsButton.closest("[data-task-id]");
+        if (!taskElement) {
+            return;
+        }
+
+        const taskId = Number(taskElement.dataset.taskId);
+        const task = taskManager.getTaskById(taskId);
+
+        if (!task) {
+            console.warn("No se encontró la tarea seleccionada.");
+            return;
+        }
+
+        showTaskDetails(task);
+    });
+}
+function showTaskDetails(task) {
+    const detailsModalElement = document.querySelector("#task-details-modal");
+
+    if (!detailsModalElement) {
+        const detailsText = `
+Nombre: ${task.name}
+Categoría: ${task.category}
+Prioridad: ${task.priority}
+Descripción: ${task.description}
+Fecha de inicio: ${task.startDate}
+Fecha final: ${task.dueDate}
+Estado: ${task.status}
+        `.trim();
+
+        showMessage("Detalles de la tarea", detailsText, "info");
+        return;
+    }
+
+    const modalName = detailsModalElement.querySelector("#modal-task-name");
+    const modalDescription = detailsModalElement.querySelector(
+        "#modal-task-description"
+    );
+    const modalCategory = detailsModalElement.querySelector(
+        "#modal-task-category"
+    );
+    const modalPriority = detailsModalElement.querySelector(
+        "#modal-task-priority"
+    );
+    const modalStartDate = detailsModalElement.querySelector(
+        "#modal-task-start-date"
+    );
+    const modalEndDate = detailsModalElement.querySelector(
+        "#modal-task-end-date"
+    );
+    const modalStatus = detailsModalElement.querySelector(
+        "#modal-task-status"
+    );
+
+    if (modalName) {
+        modalName.textContent = task.name;
+    }
+
+    if (modalDescription) {
+        modalDescription.textContent = task.description;
+    }
+
+    if (modalCategory) {
+        modalCategory.textContent = task.category;
+    }
+
+    if (modalPriority) {
+        modalPriority.textContent = task.priority;
+    }
+
+    if (modalStartDate) {
+        modalStartDate.textContent = task.startDate;
+    }
+
+    if (modalEndDate) {
+        modalEndDate.textContent = task.dueDate;
+    }
+
+    if (modalStatus) {
+        modalStatus.textContent = task.status;
+    }
+
+    if (
+        typeof bootstrap !== "undefined" &&
+        bootstrap.Modal
+    ) {
+        const modal = bootstrap.Modal.getOrCreateInstance(
+            detailsModalElement
+        );
+
+        modal.show();
+    }
+}
+renderTasks();
