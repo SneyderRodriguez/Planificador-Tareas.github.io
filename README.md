@@ -1,6 +1,6 @@
 # PLANIFICADOR DE TAREAS
 
-Proyecto web To Do
+Aplicación web para crear, consultar, completar y eliminar tareas.
 
 ---
 
@@ -26,20 +26,24 @@ Proyecto web To Do
 
 ## ✨ Características
 
-- Agregar Tarea.
-- Eliminar Tarea.
-- Historial de Tareas.
-- Perfil.
+- Crear tareas.
+- Mostrar tareas desde JavaScript.
+- Guardar tareas en localStorage.
+- Marcar tareas como completadas.
+- Cambiar el estado de las tareas.
+- Consultar los detalles.
+- Eliminar tareas.
+- Mantener los cambios después de recargar.
 
 ---
 
 ## 🛠 Tecnologías utilizadas
 
+- HTML5
+- CSS3
 - JavaScript
-- Node.js
 - Bootstrap
-- HTML
-- CSS
+- localStorage
 
 ---
 

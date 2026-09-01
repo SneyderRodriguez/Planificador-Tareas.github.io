@@ -193,6 +193,14 @@ aside .task-create:hover,
 .list-group-item span {
     font-weight: 500;
     color: var(--coarse-wool);
+    transition:
+        opacity 0.2s ease,
+        text-decoration 0.2s ease;
+}
+
+.completed {
+    text-decoration: line-through;
+    opacity: 0.6;
 }
 
 .form-check-input:checked {
@@ -234,4 +242,5 @@ aside .task-create:hover,
     .form-bottom {
         grid-template-columns: 1fr;
     }
+    
 }

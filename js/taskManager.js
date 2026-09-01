@@ -94,19 +94,14 @@ class TaskManager {
     }
 
     deleteTask(taskId) {
-        const taskExists = this.tasks.some(task => task.id === taskId);
-        if (!taskExists) {
-            console.warn(`No existe una tarea con el ID ${taskId}.`);
-            return false;
+        const newTasks = [];
+        for (const task of this.tasks) {
+            if (task.id !== taskId) {
+                newTasks.push(task);
+            }
         }
-        this.tasks = this.tasks.filter(task => task.id !== taskId);
-        this.saveTasks();
-        return true;
-    }
-
-    clearTasks() {
-        this.tasks = [];
-        this.currentId = 1;
-        this.saveTasks();
+        const taskWasDeleted = newTasks.length !== this.tasks.length;
+        this.tasks = newTasks;
+        return taskWasDeleted;
     }
 }

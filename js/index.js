@@ -6,7 +6,6 @@ console.log("¿Es una instancia válida?", taskManager instanceof TaskManager);
 
 const form = document.querySelector("#task-form");
 const taskList = document.querySelector("#task-list");
-
 const taskName = document.querySelector("#task-name");
 const taskCategory = document.querySelector("#task-category");
 const taskPriority = document.querySelector("#task-priority");
@@ -119,6 +118,11 @@ function createTaskElement(task) {
             type="button"
             class="btn btn-secondary task-details">
             Detalles
+        </button>
+        <button
+            type="button"
+            class="btn btn-danger delete-button">
+            Eliminar
         </button>`;
 
     return taskElement;
@@ -130,13 +134,11 @@ function renderTasks() {
     }
 
     taskList.innerHTML = "";
-
     if (taskManager.tasks.length === 0) {
         taskList.innerHTML = `
             <li class="list-group-item empty-task-message">
                 No hay tareas creadas.
             </li>`;
-
         return;
     }
 
@@ -175,12 +177,7 @@ if (form) {
         const errorMessage = validateTaskData(taskData);
 
         if (errorMessage) {
-            showMessage(
-                "Datos inválidos",
-                errorMessage,
-                "error"
-            );
-
+            showMessage("Datos inválidos", errorMessage, "error");
             return;
         }
 
@@ -192,22 +189,16 @@ if (form) {
             taskData.startDate,
             taskData.dueDate
         );
-
         renderTasks();
         form.reset();
 
-        showMessage(
-            "Tarea creada",
-            "La tarea se ha creado correctamente.",
-            "success"
-        );
+        showMessage("Tarea creada", "La tarea se ha creado correctamente.", "success");
     });
 }
 
 if (taskList) {
     taskList.addEventListener("change", event => {
         const taskElement = event.target.closest("[data-task-id]");
-
         if (!taskElement) {
             return;
         }
@@ -244,27 +235,59 @@ if (taskList) {
 
     taskList.addEventListener("click", event => {
         const detailsButton = event.target.closest(".task-details");
-
         if (!detailsButton) {
             return;
         }
 
         const taskElement = detailsButton.closest("[data-task-id]");
-
         if (!taskElement) {
             return;
         }
 
         const taskId = Number(taskElement.dataset.taskId);
         const task = taskManager.getTaskById(taskId);
-
         if (!task) {
             console.warn("No se encontró la tarea seleccionada.");
             return;
         }
-
         showTaskDetails(task);
     });
+}
+
+function deleteTaskFromInterface(deleteButton) {
+    const parentTask = deleteButton.closest("[data-task-id]");
+
+    if (!parentTask) {
+        console.warn("No se encontró el contenedor de la tarea.");
+        return;
+    }
+
+    const taskId = Number(parentTask.dataset.taskId);
+
+    if (!Number.isInteger(taskId)) {
+        console.warn("El identificador de la tarea no es válido.");
+        return;
+    }
+
+    const task = taskManager.getTaskById(taskId);
+    if (!task) {
+        console.warn(`No existe una tarea con el ID ${taskId}.`);
+        return;
+    }
+
+    const confirmDelete = confirm(`¿Quieres eliminar la tarea "${task.name}"?`);
+    if (!confirmDelete) {
+        return;
+    }
+
+    const taskWasDeleted = taskManager.deleteTask(taskId);
+    if (!taskWasDeleted) {
+        showMessage("No se pudo eliminar", "La tarea no fue encontrada.", "error");
+        return;
+    }
+    taskManager.save();
+    renderTasks();
+    showMessage("Tarea eliminada", "La tarea se eliminó correctamente.", "success");
 }
 
 function showTaskDetails(task) {
@@ -272,14 +295,13 @@ function showTaskDetails(task) {
 
     if (!detailsModalElement) {
         const detailsText = `
-Nombre: ${task.name}
-Categoría: ${task.category}
-Prioridad: ${task.priority}
-Descripción: ${task.description}
-Fecha de inicio: ${task.startDate}
-Fecha final: ${task.dueDate}
-Estado: ${task.status}
-        `.trim();
+                Nombre: ${task.name}
+                Categoría: ${task.category}
+                Prioridad: ${task.priority}
+                Descripción: ${task.description}
+                Fecha de inicio: ${task.startDate}
+                Fecha final: ${task.dueDate}
+                Estado: ${task.status} `.trim();
 
         showMessage("Detalles de la tarea", detailsText, "info");
         return;
