@@ -74,54 +74,49 @@
             </div>
         </div>
     </main>
-    <div class="modal fade" id="detalleModal" tabindex="-1" aria-labelledby="detalleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="task-details-modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="detalleModalLabel">
-                        Detalles de la tarea
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal">
-                    </button>
+                    <h5 class="modal-title">Detalles de la tarea</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
                         <strong>Nombre</strong>
-                        <p id="detalleNombre">
-                            Crear popUP de detalles
-                        </p>
+                        <p id="modal-task-name"></p>
                     </div>
                     <div class="mb-3">
                         <strong>Descripción</strong>
-                        <p id="detalleDescripcion">
-                            Crear una ventana emergente para visualizar toda la información de una tarea.
-                        </p>
+                        <p id="modal-task-description"></p>
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <strong>Categoría</strong>
-                            <p id="detalleCategoria">Trabajo</p>
+                            <p id="modal-task-category"></p>
                         </div>
                         <div class="col-6">
                             <strong>Prioridad</strong>
-                            <p id="detallePrioridad">Alta</p>
+                            <p id="modal-task-priority"></p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <strong>Fecha inicio</strong>
-                            <p id="detalleInicio">05/08/2026</p>
+                            <p id="modal-task-start-date"></p>
                         </div>
                         <div class="col-6">
                             <strong>Fecha fin</strong>
-                            <p id="detalleFin">10/08/2026</p>
+                            <p id="modal-task-end-date"></p>
                         </div>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Estado</strong>
+                        <p id="modal-task-status"></p>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Cerrar
-                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>

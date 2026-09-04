@@ -114,14 +114,13 @@ function createTaskElement(task) {
             </option>
         </select>
 
-        <button
-            type="button"
-            class="btn btn-secondary task-details">
+        <button type="button" class="btn btn-secondary task-details">
             Detalles
         </button>
-        <button
-            type="button"
-            class="btn btn-danger delete-button">
+        <button type="button" class="btn btn-success done-button">
+            Mark As Done
+        </button>
+        <button type="button" class="btn btn-danger delete-button">
             Eliminar
         </button>`;
 
@@ -132,7 +131,6 @@ function renderTasks() {
     if (!taskList) {
         return;
     }
-
     taskList.innerHTML = "";
     if (taskManager.tasks.length === 0) {
         taskList.innerHTML = `
@@ -141,7 +139,6 @@ function renderTasks() {
             </li>`;
         return;
     }
-
     taskManager.tasks.forEach(task => {
         const taskElement = createTaskElement(task);
         taskList.appendChild(taskElement);
@@ -157,14 +154,12 @@ function showMessage(title, text, icon) {
         });
         return;
     }
-
     alert(`${title}\n${text}`);
 }
 
 if (form) {
     form.addEventListener("submit", event => {
         event.preventDefault();
-
         const taskData = {
             name: taskName.value.trim(),
             category: taskCategory.value,
@@ -175,7 +170,6 @@ if (form) {
         };
 
         const errorMessage = validateTaskData(taskData);
-
         if (errorMessage) {
             showMessage("Datos inválidos", errorMessage, "error");
             return;
@@ -191,7 +185,6 @@ if (form) {
         );
         renderTasks();
         form.reset();
-
         showMessage("Tarea creada", "La tarea se ha creado correctamente.", "success");
     });
 }
@@ -234,11 +227,6 @@ if (taskList) {
     });
 
     taskList.addEventListener("click", event => {
-        const detailsButton = event.target.closest(".task-details");
-        if (!detailsButton) {
-            return;
-        }
-
         const taskElement = detailsButton.closest("[data-task-id]");
         if (!taskElement) {
             return;
@@ -248,6 +236,20 @@ if (taskList) {
         const task = taskManager.getTaskById(taskId);
         if (!task) {
             console.warn("No se encontró la tarea seleccionada.");
+            return;
+        }
+        if (event.target.classList.contains("done-button")) {
+            taskManager.updateTaskStatus(taskId, true);
+            renderTasks();
+            return;
+        }
+        const deleteButton = event.target.closest(".delete-button");
+        if (deleteButton) {
+            deleteTaskFromInterface(deleteButton);
+            return;
+        }
+        const detailsButton = event.target.closest(".task-details");
+        if (!detailsButton) {
             return;
         }
         showTaskDetails(task);
@@ -285,7 +287,8 @@ function deleteTaskFromInterface(deleteButton) {
         showMessage("No se pudo eliminar", "La tarea no fue encontrada.", "error");
         return;
     }
-    taskManager.save();
+    taskManager.deleteTask(taskId);
+    taskManager.saveTasks();
     renderTasks();
     showMessage("Tarea eliminada", "La tarea se eliminó correctamente.", "success");
 }

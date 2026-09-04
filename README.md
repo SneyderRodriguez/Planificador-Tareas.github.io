@@ -81,7 +81,8 @@ node index.html
 proyecto/
 │
 ├── css/style.css
-├── js/app.js
+├── js/index.css
+├── js/taskManager.js
 ├── index.html
 └── README.md
 ```
